@@ -15,17 +15,24 @@ public class FacultyService {
         this.facultyRepository = facultyRepository;
     }
 
-
     public Faculty addFaculty(Faculty faculty) {
         return facultyRepository.save(faculty);
     }
 
     public Faculty findFaculty(long id) {
-        return facultyRepository.findById(id).get();
+        return facultyRepository.findById(id).orElse(null);
     }
 
     public Faculty editFaculty(Faculty faculty) {
-        return facultyRepository.save(faculty);
+        Optional<Faculty> findFaculty = facultyRepository.findById(faculty.getId());
+        if (findFaculty.isPresent()) {
+            Faculty facultyFromDb = findFaculty.get();
+            facultyFromDb.setColor(faculty.getColor());
+            facultyFromDb.setName(faculty.getName());
+            return facultyRepository.save(facultyFromDb);
+        } else {
+            return null;
+        }
     }
 
     public void deleteFaculty(long id) {

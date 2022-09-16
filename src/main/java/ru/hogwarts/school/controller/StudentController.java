@@ -15,7 +15,7 @@ public class StudentController {
         this.studentService = studentService;
     }
 
-    @GetMapping("{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<Student> getStudentInfo (@PathVariable Long id){
         Student student = studentService.getStudent(id);
         if (student==null) {
@@ -32,10 +32,10 @@ public class StudentController {
     @PutMapping
     public ResponseEntity<Student> changeStudentInfo (@RequestBody Student student) {
         Student foundStudent = studentService.renameStudent(student);
-        return ResponseEntity.ok(student);
+        return ResponseEntity.ok(foundStudent);
     }
 
-    @DeleteMapping("{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<Student> deleteStudent (@PathVariable Long id) {
         studentService.deleteStudent(id);
         return ResponseEntity.ok().build();
