@@ -6,18 +6,24 @@ import ru.hogwarts.school.model.Student;
 import ru.hogwarts.school.repository.StudentRepository;
 
 import java.util.Collection;
-import java.util.List;
 import java.util.Optional;
 
 @Service
-public record StudentService(StudentRepository studentRepository) {
+public class StudentService {
+
+    private final StudentRepository studentRepository;
+
+    public StudentService(StudentRepository studentRepository) {
+        this.studentRepository = studentRepository;
+    }
+
 
     public Student createStudent(Student student) {
         return studentRepository.save(student);
     }
 
-    public Student getStudent(long id) {
-        return studentRepository.findById(id).orElse(null);
+    public Student findStudent(long id) {
+        return studentRepository.findById(id).orElseThrow();
     }
 
     public Student renameStudent(Student student) {
@@ -41,9 +47,8 @@ public record StudentService(StudentRepository studentRepository) {
     }
 
     public Faculty getFacultyByStudent (long id) {
-        return studentRepository.getStudentById(id).getFaculty();
+        return studentRepository.findStudentById(id).getFaculty();
     }
-
 
 
 }

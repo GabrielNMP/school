@@ -20,7 +20,7 @@ public class StudentController {
 
     @GetMapping("/{id}")
     public ResponseEntity<Student> getStudentInfo (@PathVariable Long id){
-        Student student = studentService.getStudent(id);
+        Student student = studentService.findStudent(id);
         if (student==null) {
             return ResponseEntity.notFound().build();
         }
@@ -28,8 +28,8 @@ public class StudentController {
     }
 
     @GetMapping
-    public ResponseEntity<Collection<Student>> finedStudentByParam (@RequestParam(required = false) int min,
-                                                                   @RequestParam(required = false) int max) {
+    public ResponseEntity<Collection<Student>> finedStudentByParam (@RequestParam int min,
+                                                                    @RequestParam int max) {
         if (min > 0 && max > 0) {
             return ResponseEntity.ok(studentService.finedByAge(min, max));
         }
@@ -37,7 +37,7 @@ public class StudentController {
     }
 
     @GetMapping("/faculty")
-    public ResponseEntity<Faculty> finedFacultyByStudent (@RequestParam(required = false) long id) {
+    public ResponseEntity<Faculty> finedFacultyByStudent (@RequestParam long id) {
         if (id>0){
             return ResponseEntity.ok(studentService.getFacultyByStudent(id));
         }

@@ -29,7 +29,7 @@ public class FacultyController {
     }
 
     @GetMapping
-    public ResponseEntity<Faculty> getFacultyByNameOrColor (@RequestParam(required = false) String nameOrColor) {
+    public ResponseEntity<Faculty> getFacultyByNameOrColor (@RequestParam String nameOrColor) {
         if (nameOrColor !=null && !nameOrColor.isBlank()) {
             return ResponseEntity.ok(facultyService.finedByNameColor(nameOrColor, nameOrColor));
         }
@@ -37,7 +37,7 @@ public class FacultyController {
     }
 
     @GetMapping("{id}/students")
-    public ResponseEntity<Collection<Student>> finedStudentByFaculty(@RequestParam(required = false) long id) {
+    public ResponseEntity<Collection<Student>> finedStudentByFaculty(@RequestParam long id) {
 
         if (id > 0){
             return ResponseEntity.ok(facultyService.getStudentByFaculty(id));

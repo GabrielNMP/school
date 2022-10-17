@@ -10,7 +10,7 @@ import java.util.Objects;
 public class Faculty {
 
     @Id
-    @GeneratedValue (strategy = GenerationType.IDENTITY)
+    @GeneratedValue
     private Long id;
     private String name;
     private String color;

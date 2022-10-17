@@ -50,7 +50,7 @@ public class StudentServiceTest {
         studentService.createStudent(secondStudent);
 
         when(studentRepository.findById(2L)).thenReturn(Optional.of(secondStudent));
-        assertThat(studentRepository.findById(2L)).contains(studentService.getStudent(2L));
+        assertThat(studentRepository.findById(2L)).contains(studentService.findStudent(2L));
 
     }
 
