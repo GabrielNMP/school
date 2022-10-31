@@ -1,0 +1,16 @@
+CREATE TABLE Car
+(
+    ID Serial PRIMARY KEY,
+    CarBrand VARCHAR(30) NOT NULL,
+    CarModel VARCHAR(30) NOT NULL,
+    CarPrice MONEY
+);
+
+CREATE TABLE Person
+(
+    ID SERIAL,
+    PersonName VARCHAR(30) NOT NULL,
+    Age SMALLINT CHECK (Age > 0),
+    DriverLicense BOOLEAN DEFAULT FALSE,
+    CarId SERIAL REFERENCES Car(ID)
+);
