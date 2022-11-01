@@ -1,5 +1,7 @@
 package ru.hogwarts.school.service;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -27,6 +29,8 @@ import static java.nio.file.StandardOpenOption.CREATE_NEW;
 @Transactional
 public class AvatarService {
 
+    Logger logger = LoggerFactory.getLogger(AvatarService.class);
+
     @Value("${path.to.avatars.folder}")
     private String avatarsDir;
 
@@ -42,7 +46,8 @@ public class AvatarService {
     public void uploadAvatar(Long id, MultipartFile avatarFile) throws IOException {
         Student student = studentRepository.getReferenceById(id);
 
-        Path filePath = Path.of(avatarsDir, student + "." + getExtensions(Objects.requireNonNull(avatarFile.getOriginalFilename())));
+        Path filePath = Path.of(avatarsDir, student + "."
+                + getExtensions(Objects.requireNonNull(avatarFile.getOriginalFilename())));
         Files.createDirectories(filePath.getParent());
         Files.deleteIfExists(filePath);
 
@@ -60,6 +65,7 @@ public class AvatarService {
         avatar.setFileSize(avatarFile.getSize());
         avatar.setMediaType(avatarFile.getContentType());
         avatar.setData(avatarFile.getBytes());
+        logger.info(" Method -uploadAvatar- started ");
         avatarRepository.save(avatar);
     }
 
@@ -83,16 +89,19 @@ public class AvatarService {
     }
 
     public Avatar findAvatar(Long id) {
+        logger.info("Method -findAvatar- started ");
         return avatarRepository.findByStudentId(id).orElse(new Avatar());
     }
 
     private String getExtensions(String fileName) {
+        logger.info("Method -getExtensions- started ");
         return fileName.substring(fileName.lastIndexOf(".") + 1);
 
     }
 
     public List<Avatar> allAvatarsWithPagination(Integer pageNumber, Integer pageSize) {
         PageRequest pageRequest = PageRequest.of(pageNumber-1, pageSize);
+        logger.info("Method -allAvatarsWithPagination- started ");
         return avatarRepository.findAll(pageRequest).getContent();
     }
 
